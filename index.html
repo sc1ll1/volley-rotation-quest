@@ -38,7 +38,7 @@ h1{font-size:clamp(22px,4vw,34px);margin:0;line-height:1}
   background:var(--card);border:1px solid var(--line);padding:8px 11px;border-radius:999px;
   font-weight:800;font-size:13px;box-shadow:0 3px 10px #1720330b
 }
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 18px}
+.tabs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:14px 0 18px}
 .tab{
   border:1px solid var(--line);background:rgba(255,255,255,.88);padding:11px 10px;
   border-radius:14px;font-weight:800;color:var(--muted);cursor:pointer
@@ -123,12 +123,6 @@ h2{font-size:22px;margin:3px 0 4px}
 .feedback.good{color:var(--good)}.feedback.bad{color:var(--bad)}
 .progress{height:9px;background:#e9ebf1;border-radius:999px;overflow:hidden;margin-top:10px}
 .progress > div{height:100%;background:linear-gradient(90deg,var(--accent),#9a8ef5);width:0%;transition:.3s}
-.flashcard{
-  display:grid;place-items:center;min-height:260px;border:2px dashed #cfd4df;border-radius:20px;
-  background:linear-gradient(145deg,#fff,#fafbfe);cursor:pointer;text-align:center;padding:20px
-}
-.flash-big{font-size:64px;font-weight:1000;color:var(--accent)}
-.flash-title{font-size:18px;font-weight:900}
 .tiny{font-size:11px;color:var(--muted)}
 .confetti{position:fixed;pointer-events:none;z-index:99;font-size:23px;animation:pop 1.1s ease-out forwards}
 @keyframes pop{0%{transform:translate(0,0) scale(.3);opacity:0}20%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(420deg);opacity:0}}
@@ -163,7 +157,6 @@ h2{font-size:22px;margin:3px 0 4px}
   <div class="tabs">
     <button class="tab active" data-tab="learn">📚 Impara</button>
     <button class="tab" data-tab="quiz">🎮 Gioca</button>
-    <button class="tab" data-tab="flash">⚡ Flash</button>
   </div>
 
   <section id="learn" class="panel active">
@@ -232,32 +225,6 @@ h2{font-size:22px;margin:3px 0 4px}
     </div>
   </section>
 
-  <section id="flash" class="panel">
-    <div class="card">
-      <div class="toprow">
-        <div>
-          <div class="kicker">Ripasso veloce</div>
-          <h2>Carte flash</h2>
-          <p class="help">Prima prova a ricordare lo schema, poi tocca la carta.</p>
-        </div>
-        <div class="segment">
-          <button id="flashRotBtn" class="active">Rotazione</button>
-          <button id="flashRecBtn">Ricezione</button>
-        </div>
-      </div>
-      <div id="flashcard" class="flashcard" style="margin-top:14px">
-        <div>
-          <div class="flash-big" id="flashPos">P1</div>
-          <div class="flash-title" id="flashPrompt">Dove vanno P, O, C1, C2, S1 e S2?</div>
-          <div class="tiny" style="margin-top:10px">Tocca per mostrare la soluzione</div>
-        </div>
-      </div>
-      <div class="actions" style="justify-content:center;margin-top:12px">
-        <button class="bigbtn secondary" id="flashNext">Nuova carta ↻</button>
-      </div>
-    </div>
-  </section>
-
   <div class="footer">Schemi verificati sul foglio fotografato • v2 • funziona anche offline</div>
 </div>
 
@@ -304,7 +271,6 @@ const storage=(()=>{
 })();
 let score=Number(storage.getItem("volleyScore")||0);
 let streak=0, best=Number(storage.getItem("volleyBest")||0);
-let flashMode="rot", flashPos="P1", flashRevealed=false;
 
 const $=s=>document.querySelector(s);
 const $$=s=>document.querySelectorAll(s);
@@ -513,30 +479,6 @@ function confetti(){
   }
 }
 
-function flashNew(){
-  flashRevealed=false;
-  flashPos=["P1","P2","P3","P4","P5","P6"][Math.floor(Math.random()*6)];
-  $("#flashPos").textContent=flashPos;
-  $("#flashPrompt").textContent="Dove vanno P, O, C1, C2, S1 e S2?";
-  $("#flashcard").innerHTML=`<div><div class="flash-big">${flashPos}</div><div class="flash-title">Dove vanno P, O, C1, C2, S1 e S2?</div><div class="tiny" style="margin-top:10px">Tocca per mostrare la soluzione</div></div>`;
-}
-function flashReveal(){
-  if(flashRevealed)return;
-  flashRevealed=true;
-  $("#flashcard").innerHTML=`<div class="court" id="flashCourt" style="width:min(100%,330px);"><div class="attack-line"></div><div class="zonehint">3 m</div></div>`;
-  renderPlayers($("#flashCourt"),(flashMode==="rot"?rotations:receptions)[flashPos]);
-}
-$("#flashcard").onclick=flashReveal;
-$("#flashNext").onclick=flashNew;
-function setFlashMode(m){
-  flashMode=m;
-  $("#flashRotBtn").classList.toggle("active",m==="rot");
-  $("#flashRecBtn").classList.toggle("active",m==="rec");
-  flashNew();
-}
-$("#flashRotBtn").onclick=()=>setFlashMode("rot");
-$("#flashRecBtn").onclick=()=>setFlashMode("rec");
-flashNew();
 </script>
 
 <script>
