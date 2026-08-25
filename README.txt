@@ -1,24 +1,17 @@
-VOLLEY ROTATION QUEST — PWA
+# Volley Rotation Quest
 
-Contenuto:
-- index.html
-- manifest.json
-- service-worker.js
-- icon-192.png
-- icon-512.png
+Volley Rotation Quest is a lightweight progressive web app that helps young volleyball players learn court rotations and serve-receive formations through an interactive game.
 
-GitHub Pages:
-1. Crea un repository, ad esempio "volley-rotation-quest".
-2. Carica tutti questi file nella root del repository.
-3. Vai in Settings > Pages.
-4. Seleziona "Deploy from a branch".
-5. Branch: main; cartella: /(root); Save.
-6. Apri l'URL HTTPS generato.
+## Usage
 
-Android:
-1. Apri l'URL con Chrome.
-2. Menu ⋮.
-3. "Installa app" oppure "Aggiungi a schermata Home".
-4. Dopo il primo caricamento il gioco può funzionare offline.
+Clone the repository and start a local web server from its root:
 
-Nota: la PWA va provata da HTTPS o localhost, non aprendo index.html direttamente come file://.
+```bash
+git clone https://github.com/sc1ll1/volley-rotation-quest.git
+cd volley-rotation-quest
+python3 -m http.server 8000
+```
+
+Open `http://localhost:8000` in a browser and use the game on a desktop or mobile device. The app is designed for touch-friendly mobile play and can work offline after its first successful load.
+
+The app consists of static HTML, CSS, and JavaScript files, so no package installation or build step is required. Use `localhost` or HTTPS when testing; opening `index.html` directly with `file://` does not enable the service worker.
