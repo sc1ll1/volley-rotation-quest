@@ -326,7 +326,7 @@ function shuffled(arr){return [...arr].sort(()=>Math.random()-.5)}
 function newQuestion(forcePos=null){
   quizPos=forcePos || ["P1","P2","P3","P4","P5","P6"][Math.floor(Math.random()*6)];
   selectedRole=null;placement={};hints=0;wrongs=0;
-  $("#mission").innerHTML=`Sistema la squadra nello schema <b>${quizMode==="rot"?"ROTazione":"RICEZIONE"} ${quizPos}</b>.`;
+  $("#mission").innerHTML=`Sistema la squadra nello schema <b>${quizMode==="rot"?"rotazione":"RICEZIONE"} ${quizPos}</b>.`;
   $("#feedback").textContent="";$("#feedback").className="feedback";
   $("#progressBar").style.width="0%";
   buildQuizCourt(); buildChips();
